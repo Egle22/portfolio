@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Egle Caudullo – Data Science Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    header .subtitle {
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      opacity: 0.95;
+    }
+
+    header .tagline {
+      font-size: 1.1em;
+      margin-bottom: 25px;
+      opacity: 0.9;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-links a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 25px;
+      border: 2px solid white;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .social-links a:hover {
+      background: white;
+      color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    section {
+      padding: 50px 40px;
+    }
+
+    section h2 {
+      font-size: 2.2em;
+      margin-bottom: 30px;
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .about-content {
+      font-size: 1.1em;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .about-content p {
+      margin-bottom: 15px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .skill-category {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .skill-category h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+
+    .skill-category ul {
+      list-style: none;
+    }
+
+    .skill-category li {
+      padding: 8px 0;
+      color: #555;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .skill-category li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .projects-grid {
+      display: grid;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .project-card {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 8px;
+      border-left: 4px solid #764ba2;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .project-card h3 {
+      color: #333;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+    }
+
+    .project-status {
+      display: inline-block;
+      background: #ffc107;
+      color: #333;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.85em;
+      margin-left: 10px;
+      font-weight: 600;
+    }
+
+    .project-tech {
+      color: #667eea;
+      font-weight: 600;
+      margin: 10px 0;
+      font-size: 0.95em;
+    }
+
+    .project-description {
+      color: #555;
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+
+    .research-interests {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .research-interests ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .research-interests li {
+      padding: 15px;
+      background: white;
+      border-radius: 5px;
+      border-left: 3px solid #667eea;
+      color: #555;
+    }
+
+    .research-interests li strong {
+      color: #667eea;
+    }
+
+    .education-item {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid #764ba2;
+    }
+
+    .education-item h3 {
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 1.3em;
+    }
+
+    .education-item .institution {
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .education-item .year {
+      color: #999;
+      font-style: italic;
+    }
+
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.95em;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .cta-box h3 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+    }
+
+    .cta-box p {
+      font-size: 1.1em;
+      margin-bottom: 25px;
+      opacity: 0.95;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: white;
+      color: #667eea;
+      padding: 12px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2em;
+      }
+      
+      section {
+        padding: 30px 20px;
+      }
+
+      .skills-grid,
+      .research-interests ul {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>👋 Hi, I'm Egle</h1>
+      <p class="subtitle">MSc Data Science Student | University of Bologna & ENSAI Rennes (Double Degree)</p>
+      <p class="tagline">Specializing in Graph Neural Networks, Machine Learning, and Functional Data Analysis</p>
+      <div class="social-links">
+        <a href="https://github.com/Egle22" target="_blank">📂 GitHub</a>
+        <a href="https://www.linkedin.com/in/egle-caudullo-177993266" target="_blank">💼 LinkedIn</a>
+        <a href="mailto:egle.caudullo.22@gmail.com">📧 Email</a>
+        <a href="link-to-your-cv.pdf" target="_blank">📄 Download CV</a>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+      <h2>🎓 About Me</h2>
+      <div class="about-content">
+        <p>
+          I'm a Data Science Master's student completing a double degree program between the <strong>University of Bologna</strong> and <strong>ENSAI in Rennes, France</strong>. 
+          With a background in Economics (BSc with honors, 110/110 cum laude), I'm passionate about <strong>Network Analysis</strong> and applying advanced computational methods to understand complex systems.
+        </p>
+        <p>
+          I'm currently seeking a <strong>research internship opportunity (February 2026)</strong> to complete my Master's thesis. 
+          My research interests lie at the intersection of <strong>Graph Neural Networks</strong>, <strong>Network Science</strong>, and <strong>Machine Learning</strong>, 
+          with applications to critical systems such as aerospace, infrastructure, and social networks.
+        </p>
+        <p>
+          Beyond technical skills, I bring strong experience in <strong>literature review</strong>, <strong>experimental design</strong>, and <strong>data analysis</strong>. 
+          I'm comfortable working in international, multidisciplinary teams and have completed my entire Master's program in English across two countries.
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <h2>🛠️ Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>Machine Learning & Deep Learning</h3>
+          <ul>
+            <li>Graph Neural Networks (GNN)</li>
+            <li>Time Series Analysis</li>
+            <li>Classification & Regression Models</li>
+            <li>Transformer Architectures</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Programming & Tools</h3>
+          <ul>
+            <li>Python (PyTorch, scikit-learn, NumPy, Pandas)</li>
+            <li>R (tidyverse, caret)</li>
+            <li>SQL & NoSQL (Neo4j)</li>
+            <li>Linux</li>
+            <li>Git & GitHub</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Big Data & Distributed Computing</h3>
+          <ul>
+            <li>Hadoop (HDFS, MapReduce)</li>
+            <li>Apache Spark & PySpark</li>
+            <li>Parallel Computing</li>
+            <li>Cloud Computing Platforms</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Data Analysis & Visualization</h3>
+          <ul>
+            <li>Bokeh, Matplotlib, ggplot2</li>
+            <li>Interactive Dashboards</li>
+            <li>Statistical Analysis & Inference</li>
+            <li>Experimental Design</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Natural Language Processing</h3>
+          <ul>
+            <li>Text Classification</li>
+            <li>Embeddings & Transformers</li>
+            <li>Named Entity Recognition</li>
+            <li>Large Language Models</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Statistical Methods</h3>
+          <ul>
+            <li>Bayesian Inference</li>
+            <li>Stochastic Processes</li>
+            <li>Time Series Forecasting</li>
+            <li>Model Evaluation & Validation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2>🚀 Featured Projects</h2>
+      <div class="projects-grid">
+        
+        <div class="project-card">
+          <h3>🔧 Graph Neural Networks for Aircraft Engine Fault Detection <span class="project-status">🚧 In Progress</span></h3>
+          <p class="project-tech">Technologies: Python, PyTorch Geometric, Time Series Analysis, Multi-Label Classification</p>
+          <p class="project-description">
+            Developed a GNN-based pipeline for fault detection in aircraft engines using operational sensor data. 
+            Implemented message-passing and attention-based architectures, benchmarked performance, and explored 
+            graph structure learning to capture fault propagation patterns across engine modules.
+          </p>
+        </div>
+
+        <div class="project-card">
+          <h3>📊 Churn Prediction Model - BCG-X Industry Challenge</h3>
+          <p class="project-tech">Technologies: R, Machine Learning, Business Analytics</p>
+          <p class="project-description">
+            Built an end-to-end churn prediction workflow integrating structured and textual data. 
+            Developed ML models with strong business interpretation, focusing on actionable insights 
+            for customer retention strategies.
+          </p>
+        </div>
+
+        <div class="project-card">
+          <h3>🌐 Network Analysis on Large-Scale Social Graphs</h3>
+          <p class="project-tech">Technologies: Neo4j, Cypher, Python, Graph Theory</p>
+          <p class="project-description">
+            Analyzed large-scale networks including Amazon co-purchasing data and Facebook page networks. 
+            Performed community detection, centrality analysis, and network visualization using graph database technologies.
+          </p>
+        </div>
+
+        <div class="project-card">
+          <h3>💬 Natural Language Processing - Large Language Models Project <span class="project-status">🚧 In Progress</span></h3>
+          <p class="project-tech">Technologies: Python, Transformers, NLP, Deep Learning</p>
+          <p class="project-description">
+            Final project focused on advanced NLP techniques including embeddings, text classification, and working 
+            with large language models for semantic analysis and language understanding tasks.
+          </p>
+        </div>
+
+        <div class="project-card">
+          <h3>💬 Named Entity Recognition with Deep Learning <span class="project-status">🚧 In Progress</span></h3>
+          <p class="project-tech">Technologies: Python, LSTM, BERT, Transformers, NLP</p>
+          <p class="project-description">
+            Developing two NER systems using IOB tagging scheme to detect entities (PER, ORG, LOC, MISC). 
+            Implementing both RNN-based (embedding + LSTM + feed-forward) and fine-tuned BERT models for 
+            sequence labeling tasks.
+          </p>
+        </div>
+
+        <div class="project-card">
+          <h3>⛽ Gas Consumption Forecasting with Apache Spark <span class="project-status">🚧 In Progress</span></h3>
+          <p class="project-tech">Technologies: PySpark, Spark ML, Time Series, Big Data Processing</p>
+          <p class="project-description">
+            Building a distributed machine learning pipeline to analyze and forecast gas prices in France (2022-2024). 
+            Implementing data preprocessing, feature engineering (lag features, price indexes), visualization, and 
+            predictive modeling using Spark ML regressors (LinearRegression, RandomForest).
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Research Interests -->
+    <section id="research">
+      <h2>🎯 Research Interests</h2>
+      <div class="research-interests">
+        <p>I'm currently seeking a <strong>research internship</strong> (February 2026) to complete my Master's thesis. My research interests include:</p>
+        <ul>
+          <li><strong>Graph Neural Networks</strong> for complex systems modeling</li>
+          <li><strong>Time Series Analysis</strong> on graph-structured data</li>
+          <li><strong>Network Science</strong> and computational social science</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+      <h2>📚 Education</h2>
+      
+      <div class="education-item">
+        <h3>MSc in Smart Data Science</h3>
+        <p class="institution">ENSAI – École Nationale de la Statistique et de l'Analyse de l'Information, Rennes</p>
+        <p class="year">2025 - 2026</p>
+      </div>
+
+      <div class="education-item">
+        <h3>MSc in Data Science</h3>
+        <p class="institution">University of Bologna & ENSAI (Double Degree Program)</p>
+        <p class="year">2024 - 2026</p>
+      </div>
+
+      <div class="education-item">
+        <h3>BSc in Economics</h3>
+        <p class="institution">University of Bologna</p>
+        <p class="year">2021 - 2024 | <strong>Summa Cum Laude (110/110)</strong></p>
+        <p style="margin-top: 10px; color: #555;">Solid background in economics, quantitative methods, and applied statistics.</p>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section>
+      <div class="cta-box">
+        <h3>🌟 Currently Working On</h3>
+        <p>
+          Completing a <strong>GNN project</strong> for aircraft engine fault detection using time series sensor data • 
+          Developing <strong>NLP models</strong> (LSTM and BERT) for Named Entity Recognition tasks • 
+          Building a <strong>Spark ML pipeline</strong> for gas consumption forecasting in France • 
+          Conducting literature review on graph-based anomaly detection methods
+        </p>
+        <a href="https://github.com/Egle22" class="cta-button" target="_blank">View My GitHub Projects</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Egle Caudullo | Built with passion for data science</p>
+      <p style="margin-top: 10px;">📧 egle.caudullo.22@gmail.com | 📍 Rennes, France</p>
+    </footer>
+  </div>
+</body>
+</html>
