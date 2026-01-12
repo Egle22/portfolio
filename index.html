@@ -1,529 +1,942 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Egle Caudullo – Data Science Portfolio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egle Caudullo | Data Science & Graph Neural Networks</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 20px;
-    }
+        :root {
+            --primary: #0a192f;
+            --secondary: #112240;
+            --accent: #64ffda;
+            --accent-pink: #f72585;
+            --text: #8892b0;
+            --text-bright: #ccd6f6;
+            --bg-gradient: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+        }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      overflow: hidden;
-    }
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 60px 40px;
-      text-align: center;
-    }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
 
-    header h1 {
-      font-size: 3em;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
+        /* Animated background network */
+        .bg-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.15;
+            z-index: 0;
+        }
 
-    header .subtitle {
-      font-size: 1.3em;
-      margin-bottom: 15px;
-      opacity: 0.95;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
 
-    header .tagline {
-      font-size: 1.1em;
-      margin-bottom: 25px;
-      opacity: 0.9;
-    }
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
 
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
+        .hero {
+            animation: fadeInUp 1s ease-out;
+        }
 
-    .social-links a {
-      color: white;
-      text-decoration: none;
-      padding: 10px 25px;
-      border: 2px solid white;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-    }
+        .label {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            animation: slideRight 0.8s ease-out;
+        }
 
-    .social-links a:hover {
-      background: white;
-      color: #667eea;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
+        h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            color: var(--text-bright);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
 
-    section {
-      padding: 50px 40px;
-    }
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    section h2 {
-      font-size: 2.2em;
-      margin-bottom: 30px;
-      color: #667eea;
-      border-bottom: 3px solid #667eea;
-      padding-bottom: 10px;
-    }
+        .subtitle {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            color: var(--text);
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
 
-    .about-content {
-      font-size: 1.1em;
-      line-height: 1.8;
-      color: #555;
-    }
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
 
-    .about-content p {
-      margin-bottom: 15px;
-    }
+        .btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
 
-    .skill-category {
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 8px;
-      border-left: 4px solid #667eea;
-    }
+        .btn:hover::before {
+            left: 0;
+        }
 
-    .skill-category h3 {
-      color: #667eea;
-      margin-bottom: 15px;
-      font-size: 1.3em;
-    }
+        .btn:hover {
+            color: var(--primary);
+        }
 
-    .skill-category ul {
-      list-style: none;
-    }
+        .btn-secondary {
+            border-color: var(--accent-pink);
+            color: var(--accent-pink);
+        }
 
-    .skill-category li {
-      padding: 8px 0;
-      color: #555;
-      position: relative;
-      padding-left: 20px;
-    }
+        .btn-secondary::before {
+            background: var(--accent-pink);
+        }
 
-    .skill-category li::before {
-      content: "▹";
-      position: absolute;
-      left: 0;
-      color: #667eea;
-      font-weight: bold;
-    }
+        /* Section styling */
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
 
-    .projects-grid {
-      display: grid;
-      gap: 30px;
-      margin-top: 30px;
-    }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text-bright);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-    .project-card {
-      background: #f8f9fa;
-      padding: 30px;
-      border-radius: 8px;
-      border-left: 4px solid #764ba2;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        .section-number {
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
 
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--secondary);
+            margin-left: 2rem;
+        }
 
-    .project-card h3 {
-      color: #333;
-      font-size: 1.5em;
-      margin-bottom: 10px;
-    }
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
 
-    .project-status {
-      display: inline-block;
-      background: #ffc107;
-      color: #333;
-      padding: 4px 12px;
-      border-radius: 15px;
-      font-size: 0.85em;
-      margin-left: 10px;
-      font-weight: 600;
-    }
+        .skill-category {
+            background: var(--secondary);
+            padding: 2rem;
+            border-left: 3px solid var(--accent);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
 
-    .project-tech {
-      color: #667eea;
-      font-weight: 600;
-      margin: 10px 0;
-      font-size: 0.95em;
-    }
+        .skill-category:nth-child(1) { animation-delay: 0.1s; }
+        .skill-category:nth-child(2) { animation-delay: 0.2s; }
+        .skill-category:nth-child(3) { animation-delay: 0.3s; }
+        .skill-category:nth-child(4) { animation-delay: 0.4s; }
 
-    .project-description {
-      color: #555;
-      line-height: 1.7;
-      margin-top: 10px;
-    }
+        .skill-category:hover {
+            transform: translateX(10px);
+            border-color: var(--accent-pink);
+        }
 
-    .research-interests {
-      background: #f8f9fa;
-      padding: 30px;
-      border-radius: 8px;
-      margin-top: 30px;
-    }
+        .skill-category h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
 
-    .research-interests ul {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
+        .skill-category ul {
+            list-style: none;
+        }
 
-    .research-interests li {
-      padding: 15px;
-      background: white;
-      border-radius: 5px;
-      border-left: 3px solid #667eea;
-      color: #555;
-    }
+        .skill-category li {
+            padding: 0.4rem 0;
+            color: var(--text);
+            position: relative;
+            padding-left: 1.5rem;
+        }
 
-    .research-interests li strong {
-      color: #667eea;
-    }
+        .skill-category li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
 
-    .education-item {
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border-left: 4px solid #764ba2;
-    }
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
 
-    .education-item h3 {
-      color: #333;
-      margin-bottom: 8px;
-      font-size: 1.3em;
-    }
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: var(--secondary);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
 
-    .education-item .institution {
-      color: #667eea;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+        .project-card:nth-child(5) { animation-delay: 0.5s; }
+        .project-card:nth-child(6) { animation-delay: 0.6s; }
 
-    .education-item .year {
-      color: #999;
-      font-style: italic;
-    }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
 
-    footer {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px;
-      font-size: 0.95em;
-    }
+        .project-card:hover::before {
+            left: 100%;
+        }
 
-    .cta-box {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 40px;
-      border-radius: 8px;
-      text-align: center;
-      margin-top: 30px;
-    }
+        .project-info h3 {
+            color: var(--text-bright);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
 
-    .cta-box h3 {
-      font-size: 1.8em;
-      margin-bottom: 15px;
-    }
+        .project-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--accent);
+            font-size: 0.8rem;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
 
-    .cta-box p {
-      font-size: 1.1em;
-      margin-bottom: 25px;
-      opacity: 0.95;
-    }
+        .project-status.progress {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--accent-pink);
+        }
 
-    .cta-button {
-      display: inline-block;
-      background: white;
-      color: #667eea;
-      padding: 12px 30px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
+        .project-description {
+            color: var(--text);
+            margin: 1rem 0;
+            line-height: 1.7;
+        }
 
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
 
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2em;
-      }
-      
-      section {
-        padding: 30px 20px;
-      }
+        .tech-tag {
+            padding: 0.4rem 0.9rem;
+            background: rgba(100, 255, 218, 0.05);
+            color: var(--accent);
+            font-size: 0.85rem;
+            border: 1px solid var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
 
-      .skills-grid,
-      .research-interests ul {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--accent-pink);
+        }
+
+        /* Education & Research */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin-top: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--primary), 0 0 0 6px var(--accent);
+        }
+
+        .timeline-item h3 {
+            color: var(--text-bright);
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-location {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-date {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        /* Research Interests */
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .research-item {
+            background: var(--secondary);
+            padding: 2rem;
+            border-top: 3px solid var(--accent-pink);
+            transition: transform 0.3s ease;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .research-item:nth-child(1) { animation-delay: 0.1s; }
+        .research-item:nth-child(2) { animation-delay: 0.2s; }
+        .research-item:nth-child(3) { animation-delay: 0.3s; }
+        .research-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .research-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .research-item h3 {
+            color: var(--text-bright);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: var(--secondary);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .contact-item:nth-child(1) { animation-delay: 0.1s; }
+        .contact-item:nth-child(2) { animation-delay: 0.2s; }
+        .contact-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .contact-item:hover {
+            background: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .contact-item:hover * {
+            color: var(--primary);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .contact-item h3 {
+            color: var(--text-bright);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text);
+            border-top: 1px solid var(--secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideRight {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .project-card {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .section-line {
+                display: none;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+        }
+
+        /* SVG Network Animation */
+        #network-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .node-circle {
+            fill: var(--accent);
+            opacity: 0.3;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .node-circle:nth-child(2) { animation-delay: 0.5s; }
+        .node-circle:nth-child(3) { animation-delay: 1s; }
+        .node-circle:nth-child(4) { animation-delay: 1.5s; }
+
+        .connection-line {
+            stroke: var(--accent);
+            stroke-width: 0.5;
+            opacity: 0.2;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <header>
-      <h1>👋 Hi, I'm Egle</h1>
-      <p class="subtitle">MSc Data Science Student | University of Bologna & ENSAI Rennes (Double Degree)</p>
-      <p class="tagline">Specializing in Graph Neural Networks, Machine Learning, and Functional Data Analysis</p>
-      <div class="social-links">
-        <a href="https://github.com/Egle22" target="_blank">📂 GitHub</a>
-        <a href="https://www.linkedin.com/in/egle-caudullo-177993266" target="_blank">💼 LinkedIn</a>
-        <a href="mailto:egle.caudullo.22@gmail.com">📧 Email</a>
-        <a href="link-to-your-cv.pdf" target="_blank">📄 Download CV</a>
-      </div>
-    </header>
+    <!-- Animated background -->
+    <div class="bg-network">
+        <svg id="network-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+            <g>
+                <line class="connection-line" x1="100" y1="100" x2="300" y2="200"/>
+                <line class="connection-line" x1="300" y1="200" x2="600" y2="150"/>
+                <line class="connection-line" x1="600" y1="150" x2="800" y2="300"/>
+                <line class="connection-line" x1="100" y1="100" x2="400" y2="500"/>
+                <line class="connection-line" x1="400" y1="500" x2="800" y2="300"/>
+                <line class="connection-line" x1="300" y1="200" x2="400" y2="500"/>
+                <line class="connection-line" x1="600" y1="150" x2="700" y2="600"/>
+                <line class="connection-line" x1="400" y1="500" x2="700" y2="600"/>
+                <line class="connection-line" x1="800" y1="300" x2="700" y2="600"/>
+                <line class="connection-line" x1="100" y1="100" x2="200" y2="800"/>
+                <line class="connection-line" x1="200" y1="800" x2="700" y2="600"/>
+                
+                <circle class="node-circle" cx="100" cy="100" r="8"/>
+                <circle class="node-circle" cx="300" cy="200" r="6"/>
+                <circle class="node-circle" cx="600" cy="150" r="7"/>
+                <circle class="node-circle" cx="800" cy="300" r="8"/>
+                <circle class="node-circle" cx="400" cy="500" r="10"/>
+                <circle class="node-circle" cx="700" cy="600" r="6"/>
+                <circle class="node-circle" cx="200" cy="800" r="7"/>
+            </g>
+        </svg>
+    </div>
 
-    <!-- About Section -->
-    <section id="about">
-      <h2>🎓 About Me</h2>
-      <div class="about-content">
-        <p>
-          I'm a Data Science Master's student completing a double degree program between the <strong>University of Bologna</strong> and <strong>ENSAI in Rennes, France</strong>. 
-          With a background in Economics (BSc with honors, 110/110 cum laude), I'm passionate about <strong>Network Analysis</strong> and applying advanced computational methods to understand complex systems.
-        </p>
-        <p>
-          I'm currently seeking a <strong>research internship opportunity (February 2026)</strong> to complete my Master's thesis. 
-          My research interests lie at the intersection of <strong>Graph Neural Networks</strong>, <strong>Network Science</strong>, and <strong>Machine Learning</strong>, 
-          with applications to critical systems such as aerospace, infrastructure, and social networks.
-        </p>
-        <p>
-          Beyond technical skills, I bring strong experience in <strong>literature review</strong>, <strong>experimental design</strong>, and <strong>data analysis</strong>. 
-          I'm comfortable working in international, multidisciplinary teams and have completed my entire Master's program in English across two countries.
-        </p>
-      </div>
-    </section>
+    <div class="container">
+        <!-- Hero Section -->
+        <header>
+            <div class="hero">
+                <div class="label mono">DATA SCIENTIST & RESEARCHER</div>
+                <h1>
+                    Hi, I'm <span class="gradient-text">Egle</span>
+                </h1>
+                <p class="subtitle">
+                    Data Science Master's student specializing in <strong>Graph Neural Networks</strong>, <strong>Machine Learning</strong>, and <strong>Network Analysis</strong>. 
+                    Currently building AI solutions for complex systems at ENSAI Rennes & University of Bologna.
+                </p>
+                <div class="cta-group">
+                    <a href="#projects" class="btn">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+        </header>
 
-    <!-- Skills Section -->
-    <section id="skills">
-      <h2>🛠️ Technical Skills</h2>
-      <div class="skills-grid">
-        <div class="skill-category">
-          <h3>Machine Learning & Deep Learning</h3>
-          <ul>
-            <li>Graph Neural Networks (GNN)</li>
-            <li>Time Series Analysis</li>
-            <li>Classification & Regression Models</li>
-            <li>Transformer Architectures</li>
-          </ul>
-        </div>
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2 class="section-title">
+                <span class="section-number mono">01.</span>
+                Technical Skills
+                <div class="section-line"></div>
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Machine Learning & AI</h3>
+                    <ul>
+                        <li>Graph Neural Networks (GNN)</li>
+                        <li>Deep Learning (PyTorch)</li>
+                        <li>Time Series Analysis</li>
+                        <li>Classification Models</li>
+                        <li>Transformer Architectures</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Programming & Tools</h3>
+                    <ul>
+                        <li>Python (PyTorch, scikit-learn)</li>
+                        <li>R (tidyverse, caret)</li>
+                        <li>SQL & NoSQL (Neo4j)</li>
+                        <li>Linux & Git</li>
+                        <li>Hadoop & Apache Spark</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Data Analysis</h3>
+                    <ul>
+                        <li>Statistical Modeling</li>
+                        <li>Bayesian Inference</li>
+                        <li>Stochastic Processes</li>
+                        <li>Experimental Design</li>
+                        <li>Functional Data Analysis</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>Specialized Areas</h3>
+                    <ul>
+                        <li>Network Science</li>
+                        <li>Natural Language Processing</li>
+                        <li>Big Data Processing</li>
+                        <li>Interactive Visualization</li>
+                        <li>Graph Theory</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        <div class="skill-category">
-          <h3>Programming & Tools</h3>
-          <ul>
-            <li>Python (PyTorch, scikit-learn, NumPy, Pandas)</li>
-            <li>R (tidyverse, caret)</li>
-            <li>SQL & NoSQL (Neo4j)</li>
-            <li>Linux</li>
-            <li>Git & GitHub</li>
-          </ul>
-        </div>
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">
+                <span class="section-number mono">02.</span>
+                Featured Projects
+                <div class="section-line"></div>
+            </h2>
+            <div class="projects-grid">
+                <!-- Project 1: GNN -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Graph Neural Networks for Aircraft Engine Fault Detection</h3>
+                        <span class="project-status progress">🚧 In Progress</span>
+                        <p class="project-description">
+                            Developed a GNN-based pipeline for fault detection in aircraft engines using operational sensor data. 
+                            Implemented message-passing and attention-based architectures, benchmarked performance, and explored 
+                            graph structure learning to capture fault propagation patterns across engine modules.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">PyTorch Geometric</span>
+                            <span class="tech-tag">Time Series</span>
+                            <span class="tech-tag">Multi-Label Classification</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="skill-category">
-          <h3>Big Data & Distributed Computing</h3>
-          <ul>
-            <li>Hadoop (HDFS, MapReduce)</li>
-            <li>Apache Spark & PySpark</li>
-            <li>Parallel Computing</li>
-            <li>Cloud Computing Platforms</li>
-          </ul>
-        </div>
+                <!-- Project 2: NLP LLM -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Large Language Models for NLP</h3>
+                        <span class="project-status progress">🚧 In Progress</span>
+                        <p class="project-description">
+                            Advanced NLP project focused on transformers, embeddings, text classification, and working with 
+                            large language models for semantic analysis and language understanding tasks.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Transformers</span>
+                            <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">Deep Learning</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="skill-category">
-          <h3>Data Analysis & Visualization</h3>
-          <ul>
-            <li>Bokeh, Matplotlib, ggplot2</li>
-            <li>Interactive Dashboards</li>
-            <li>Statistical Analysis & Inference</li>
-            <li>Experimental Design</li>
-          </ul>
-        </div>
+                <!-- Project 3: NER -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Named Entity Recognition with Deep Learning</h3>
+                        <span class="project-status progress">🚧 In Progress</span>
+                        <p class="project-description">
+                            Developing two NER systems using IOB tagging scheme to detect entities (PER, ORG, LOC, MISC). 
+                            Implementing both RNN-based (embedding + LSTM + feed-forward) and fine-tuned BERT models for sequence labeling.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">LSTM</span>
+                            <span class="tech-tag">BERT</span>
+                            <span class="tech-tag">Transformers</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="skill-category">
-          <h3>Natural Language Processing</h3>
-          <ul>
-            <li>Text Classification</li>
-            <li>Embeddings & Transformers</li>
-            <li>Named Entity Recognition</li>
-            <li>Large Language Models</li>
-          </ul>
-        </div>
+                <!-- Project 4: Spark -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Gas Consumption Forecasting with Apache Spark</h3>
+                        <span class="project-status progress">🚧 In Progress</span>
+                        <p class="project-description">
+                            Building a distributed ML pipeline to analyze and forecast gas prices in France (2022-2024). 
+                            Implementing data preprocessing, feature engineering (lag features, price indexes), visualization, 
+                            and predictive modeling using Spark ML regressors.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">PySpark</span>
+                            <span class="tech-tag">Spark ML</span>
+                            <span class="tech-tag">Time Series</span>
+                            <span class="tech-tag">Big Data</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="skill-category">
-          <h3>Statistical Methods</h3>
-          <ul>
-            <li>Bayesian Inference</li>
-            <li>Stochastic Processes</li>
-            <li>Time Series Forecasting</li>
-            <li>Model Evaluation & Validation</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+                <!-- Project 5: BCG -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>BCG X Customer Churn Prediction</h3>
+                        <span class="project-status">✓ Completed</span>
+                        <p class="project-description">
+                            BCG X competition project combining ML and GenAI for telecom customer churn prediction. 
+                            Implemented Lasso, GBM, Random Forest (18.46% error). Sentiment analysis with topic modeling, 
+                            K-Means segmentation with PCA. Developed retention prioritization system.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">R</span>
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">Clustering</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Egle22/bcg-churn-prediction" target="_blank" class="project-link">View on GitHub →</a>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Projects Section -->
-    <section id="projects">
-      <h2>🚀 Featured Projects</h2>
-      <div class="projects-grid">
-        
-        <div class="project-card">
-          <h3>🔧 Graph Neural Networks for Aircraft Engine Fault Detection <span class="project-status">🚧 In Progress</span></h3>
-          <p class="project-tech">Technologies: Python, PyTorch Geometric, Time Series Analysis, Multi-Label Classification</p>
-          <p class="project-description">
-            Developed a GNN-based pipeline for fault detection in aircraft engines using operational sensor data. 
-            Implemented message-passing and attention-based architectures, benchmarked performance, and explored 
-            graph structure learning to capture fault propagation patterns across engine modules.
-          </p>
-        </div>
+                <!-- Project 6: Air Transport -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Global Air Transport Network Analysis</h3>
+                        <span class="project-status">✓ Completed</span>
+                        <p class="project-description">
+                            Graph database analysis of 67K routes across 14K airports using Neo4j. 
+                            Centrality metrics, community detection, inequality analysis (Gini: 0.807). 
+                            Explored network resilience and hub structures in global aviation.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Neo4j</span>
+                            <span class="tech-tag">Cypher</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Graph Theory</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Egle22/global-air-transport-network-analysis" target="_blank" class="project-link">View on GitHub →</a>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="project-card">
-          <h3>📊 Churn Prediction Model - BCG-X Industry Challenge</h3>
-          <p class="project-tech">Technologies: R, Machine Learning, Business Analytics</p>
-          <p class="project-description">
-            Built an end-to-end churn prediction workflow integrating structured and textual data. 
-            Developed ML models with strong business interpretation, focusing on actionable insights 
-            for customer retention strategies.
-          </p>
-        </div>
+                <!-- Project 7: Nile -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Nile River Time Series Analysis</h3>
+                        <span class="project-status">✓ Completed</span>
+                        <p class="project-description">
+                            Local Level Model analysis of Nile River annual flow (1871-1970) with Kalman filtering/smoothing and 
+                            BFGS parameter estimation. Demonstrated filter convergence to steady state.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">R</span>
+                            <span class="tech-tag">State Space Models</span>
+                            <span class="tech-tag">Kalman Filter</span>
+                            <span class="tech-tag">Maximum Likelihood</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Egle22/nile-time-series-analysis" target="_blank" class="project-link">View on GitHub →</a>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="project-card">
-          <h3>🌐 Network Analysis on Large-Scale Social Graphs</h3>
-          <p class="project-tech">Technologies: Neo4j, Cypher, Python, Graph Theory</p>
-          <p class="project-description">
-            Analyzed large-scale networks including Amazon co-purchasing data and Facebook page networks. 
-            Performed community detection, centrality analysis, and network visualization using graph database technologies.
-          </p>
-        </div>
+                <!-- Project 8: Telecom Churn -->
+                <div class="project-card">
+                    <div class="project-info">
+                        <h3>Telecom Customer Churn Prediction</h3>
+                        <span class="project-status">✓ Completed</span>
+                        <p class="project-description">
+                            Predicted customer churn combining demographic data and sentiment analysis of 1,605 complaints. 
+                            Implemented Logistic, Lasso, GBM, Random Forest with 5-fold CV. Best model (Lasso) achieved 18.46% error rate. 
+                            Feature engineering and topic modeling (LSA) for complaint analysis.
+                        </p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">R</span>
+                            <span class="tech-tag">Machine Learning</span>
+                            <span class="tech-tag">Sentiment Analysis</span>
+                            <span class="tech-tag">Text Mining</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Egle22/telecom-churn-prediction" target="_blank" class="project-link">View on GitHub →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <div class="project-card">
-          <h3>💬 Natural Language Processing - Large Language Models Project <span class="project-status">🚧 In Progress</span></h3>
-          <p class="project-tech">Technologies: Python, Transformers, NLP, Deep Learning</p>
-          <p class="project-description">
-            Final project focused on advanced NLP techniques including embeddings, text classification, and working 
-            with large language models for semantic analysis and language understanding tasks.
-          </p>
-        </div>
+        <!-- Education Section -->
+        <section id="education">
+            <h2 class="section-title">
+                <span class="section-number mono">03.</span>
+                Education
+                <div class="section-line"></div>
+            </h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>MSc in Smart Data Science</h3>
+                    <div class="timeline-location">ENSAI, Rennes, France</div>
+                    <div class="timeline-date">2025-2026</div>
+                </div>
+                <div class="timeline-item">
+                    <h3>MSc in Data Science (Double Degree)</h3>
+                    <div class="timeline-location">University of Bologna, Italy</div>
+                    <div class="timeline-date">2024-2026</div>
+                </div>
+                <div class="timeline-item">
+                    <h3>BSc in Economics</h3>
+                    <div class="timeline-location">University of Bologna, Italy</div>
+                    <div class="timeline-date">2021-2024 | Summa Cum Laude (110/110)</div>
+                </div>
+            </div>
+        </section>
 
-        <div class="project-card">
-          <h3>💬 Named Entity Recognition with Deep Learning <span class="project-status">🚧 In Progress</span></h3>
-          <p class="project-tech">Technologies: Python, LSTM, BERT, Transformers, NLP</p>
-          <p class="project-description">
-            Developing two NER systems using IOB tagging scheme to detect entities (PER, ORG, LOC, MISC). 
-            Implementing both RNN-based (embedding + LSTM + feed-forward) and fine-tuned BERT models for 
-            sequence labeling tasks.
-          </p>
-        </div>
+        <!-- Research Interests -->
+        <section id="research">
+            <h2 class="section-title">
+                <span class="section-number mono">04.</span>
+                Research Interests
+                <div class="section-line"></div>
+            </h2>
+            <p class="subtitle" style="max-width: 800px; margin-bottom: 2rem;">
+                Currently seeking a <strong>research internship</strong> (February 2026) to complete my Master's thesis.
+            </p>
+            <div class="research-grid">
+                <div class="research-item">
+                    <h3>Graph Neural Networks</h3>
+                    <p>Complex systems modeling with GNNs, exploring message-passing architectures and attention mechanisms for structured data.</p>
+                </div>
+                <div class="research-item">
+                    <h3>Time Series on Graphs</h3>
+                    <p>Analyzing temporal dynamics on graph-structured data, combining spatio-temporal modeling with network science.</p>
+                </div>
+                <div class="research-item">
+                    <h3>Network Science</h3>
+                    <p>Computational social science, community detection, centrality analysis, and network resilience in complex systems.</p>
+                </div>
+                <div class="research-item">
+                    <h3>Critical Systems</h3>
+                    <p>Applications to critical infrastructure, anomaly detection, and fault propagation in interconnected systems.</p>
+                </div>
+            </div>
+        </section>
 
-        <div class="project-card">
-          <h3>⛽ Gas Consumption Forecasting with Apache Spark <span class="project-status">🚧 In Progress</span></h3>
-          <p class="project-tech">Technologies: PySpark, Spark ML, Time Series, Big Data Processing</p>
-          <p class="project-description">
-            Building a distributed machine learning pipeline to analyze and forecast gas prices in France (2022-2024). 
-            Implementing data preprocessing, feature engineering (lag features, price indexes), visualization, and 
-            predictive modeling using Spark ML regressors (LinearRegression, RandomForest).
-          </p>
-        </div>
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2 class="section-title">
+                <span class="section-number mono">05.</span>
+                Get In Touch
+                <div class="section-line"></div>
+            </h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <a href="mailto:egle.caudullo.22@gmail.com">egle.caudullo.22@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💼</div>
+                    <h3>LinkedIn</h3>
+                    <a href="https://www.linkedin.com/in/egle-caudullo-177993266" target="_blank">Connect with me</a>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💻</div>
+                    <h3>GitHub</h3>
+                    <a href="https://github.com/Egle22" target="_blank">@Egle22</a>
+                </div>
+            </div>
+        </section>
+    </div>
 
-      </div>
-    </section>
-
-    <!-- Research Interests -->
-    <section id="research">
-      <h2>🎯 Research Interests</h2>
-      <div class="research-interests">
-        <p>I'm currently seeking a <strong>research internship</strong> (February 2026) to complete my Master's thesis. My research interests include:</p>
-        <ul>
-          <li><strong>Graph Neural Networks</strong> for complex systems modeling</li>
-          <li><strong>Time Series Analysis</strong> on graph-structured data</li>
-          <li><strong>Network Science</strong> and computational social science</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education">
-      <h2>📚 Education</h2>
-      
-      <div class="education-item">
-        <h3>MSc in Smart Data Science</h3>
-        <p class="institution">ENSAI – École Nationale de la Statistique et de l'Analyse de l'Information, Rennes</p>
-        <p class="year">2025 - 2026</p>
-      </div>
-
-      <div class="education-item">
-        <h3>MSc in Data Science</h3>
-        <p class="institution">University of Bologna & ENSAI (Double Degree Program)</p>
-        <p class="year">2024 - 2026</p>
-      </div>
-
-      <div class="education-item">
-        <h3>BSc in Economics</h3>
-        <p class="institution">University of Bologna</p>
-        <p class="year">2021 - 2024 | <strong>Summa Cum Laude (110/110)</strong></p>
-        <p style="margin-top: 10px; color: #555;">Solid background in economics, quantitative methods, and applied statistics.</p>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section>
-      <div class="cta-box">
-        <h3>🌟 Currently Working On</h3>
-        <p>
-          Completing a <strong>GNN project</strong> for aircraft engine fault detection using time series sensor data • 
-          Developing <strong>NLP models</strong> (LSTM and BERT) for Named Entity Recognition tasks • 
-          Building a <strong>Spark ML pipeline</strong> for gas consumption forecasting in France • 
-          Conducting literature review on graph-based anomaly detection methods
-        </p>
-        <a href="https://github.com/Egle22" class="cta-button" target="_blank">View My GitHub Projects</a>
-      </div>
-    </section>
-
-    <!-- Footer -->
     <footer>
-      <p>© 2026 Egle Caudullo | Built with passion for data science</p>
-      <p style="margin-top: 10px;">📧 egle.caudullo.22@gmail.com | 📍 Rennes, France</p>
+        <p class="mono">Designed & Built by Egle Caudullo | 2025</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Data Science | Graph Neural Networks | Network Analysis</p>
     </footer>
-  </div>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
